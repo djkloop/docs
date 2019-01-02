@@ -7,6 +7,7 @@ const fs = require('fs')
 const rimraf = require('rimraf')
 
 const CWD = process.cwd()
+const RUN_ENV_PRODUCTION = 'PRODUCTION'
 console.log(`Now Cwd -> ${CWD}`.blue.bold)
 
 const pathJoin = (path) => {
@@ -14,6 +15,8 @@ const pathJoin = (path) => {
 }
 const dist = (done) => {
   rimraf.sync(pathJoin('site-dist'))
+  process.env.RUN_ENV = RUN_ENV_PRODUCTION
+  const webpackSiteConfig = require(pathJoin('webpack_config/'))
   return done(0)
 }
 
