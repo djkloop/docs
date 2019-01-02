@@ -4,5 +4,10 @@
  * @Author: djkloop
  * @Date: 2019-01-02 12:47:37
  * @Last Modified by: djkloop
- * @Last Modified time: 2019-01-02 12:48:02
+ * @Last Modified time: 2019-01-03 00:55:24
  */
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const merge = require('webpack-merge')
+const baseWebpackConfig = require('./base.webpack.config')
+console.log(baseWebpackConfig);

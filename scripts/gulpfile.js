@@ -10,17 +10,21 @@ const CWD = process.cwd()
 const RUN_ENV_PRODUCTION = 'PRODUCTION'
 console.log(`Now Cwd -> ${CWD}`.blue.bold)
 
-const pathJoin = (path) => {
-  return path.join(CWD, path)
+const pathJoin = (dir) => {
+  return path.join(CWD, dir)
 }
 const dist = (done) => {
   rimraf.sync(pathJoin('site-dist'))
   process.env.RUN_ENV = RUN_ENV_PRODUCTION
-  const webpackSiteConfig = require(pathJoin('webpack_config/'))
+  const webpackSiteConfig = require(pathJoin('webpack_config/site.webpack.config.js'))
+  console.log(webpackSiteConfig);
   return done(0)
 }
 
 gulp.task('site-dist', (done) => {
-  console.log(`site-dist done`.cyan)
+  console.log(`site-dist done`.green)
+  dist(() => {
+    console.log(`site-dist done`.cyan)
+  })
 })
 

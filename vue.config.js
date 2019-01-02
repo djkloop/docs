@@ -6,6 +6,10 @@ function pathResolve(p) {
   let pa = path.resolve(__dirname, p);
   return pa;
 }
+
+function resolve (dir) {
+  return path.join(__dirname, dir)
+}
 module.exports = {
   pages: {
     index: {
@@ -19,6 +23,7 @@ module.exports = {
     disableHostCheck: true
   },
   chainWebpack: config => {
+    config.resolve.alias.set('@$', resolve('examples'))
     config.module
       .rule('tsx')
       .include
