@@ -5,14 +5,14 @@ module.exports = {
   env: {
     "test": {
         "presets": [
-            ["env", { "targets": { "node": "current" } }]
+            ["@babel/preset-env", { "targets": { "node": "current" } }]
         ],
         "plugins": [
             "transform-vue-jsx",
-            "transform-object-assign",
-            "transform-object-rest-spread",
-            "transform-class-properties",
-            "transform-runtime"
+            "@babel/plugin-transform-object-assign",
+            "@babel/plugin-proposal-object-rest-spread",
+            "@babel/plugin-proposal-class-properties",
+            "@babel/plugin-transform-runtime"
         ]
     }
   }

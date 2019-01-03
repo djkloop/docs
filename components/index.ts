@@ -1,7 +1,4 @@
-import TButton from './demo';
-(TButton as any).install = (Vue: any) => {
-  Vue.component(TButton.NAME, TButton);
-};
+import { default as TButton  } from './t-button';
 
 const components = [
   TButton,
@@ -12,6 +9,10 @@ const install = (Vue: any) => {
     Vue.use(component);
   });
 };
+
+if (typeof (window as any) !== 'undefined' && (window as any).Vue) {
+  install((window as any).Vue);
+}
 
 export {
   TButton,

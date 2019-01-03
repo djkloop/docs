@@ -4,11 +4,12 @@
  * @Author: djkloop
  * @Date: 2019-01-02 23:19:19
  * @Last Modified by: djkloop
- * @Last Modified time: 2019-01-03 01:19:41
+ * @Last Modified time: 2019-01-03 14:27:01
  */
 
 const path = require('path')
-const webpack = require('webpack')
+// const webpack = require('webpack')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpackMerge = require('webpack-merge')
@@ -19,10 +20,9 @@ const CssModulePlugin = new MiniCssExtractPlugin({
 })
 const devMode = process.env.NODE_ENV !== 'production'
 
-console.log(process.env.NODE_ENV)
-
 // 主要是设置css + plugin
-module.exports = {
+module.exports = webpackMerge(baseWebpackConfig, {
+  mode: 'production',
   output: {
     path: path.resolve(__dirname, '../site-dist'),
     publicPath: '/ant-design-vue/',
@@ -42,11 +42,33 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    minimize: devMode ? false : true,
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          name: 'chunk-vendors',
+          test: /[\\\/]node_modules[\\\/]/,
+          priority: -10,
+          chunks: 'initial'
+        },
+        common: {
+          name: 'chunk-common',
+          minChunks: 2,
+          priority: -20,
+          chunks: 'initial',
+          reuseExistingChunk: true
+        }
+      }
+    }
+  },
   plugins: [
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      template: '../site/index.html',
+      template: path.resolve(__dirname, '../site/index.html'),
       inject: true,
       production: true,
-    })
+    }),
+    CssModulePlugin
   ]
-}
+})

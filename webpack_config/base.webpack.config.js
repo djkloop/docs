@@ -4,7 +4,7 @@
  * @Author: djkloop
  * @Date: 2019-01-02 23:18:54
  * @Last Modified by: djkloop
- * @Last Modified time: 2019-01-03 01:12:17
+ * @Last Modified time: 2019-01-03 17:09:02
  */
 
  const path = require('path')
@@ -14,7 +14,7 @@
  const getBabelCommonConfig = require('../_libs/tools/antd-babel-commo-config')
  const babelConfig = getBabelCommonConfig(false)
  function pathResolve(p) {
-  let pa = path.resolve(__dirname, '..'+ p);
+  let pa = path.resolve(__dirname, '../'+ p);
   return pa;
 }
 
@@ -155,7 +155,7 @@ md.core.ruler.push('update_template', function replace ({ tokens }) {
 
  module.exports = {
    entry: {
-     index: [`../site/index.js`]
+     index: pathResolve('site/index.js')
    },
    module: {
      rules: [
@@ -182,18 +182,28 @@ md.core.ruler.push('update_template', function replace ({ tokens }) {
              })
            }
          ]
+       },{
+         test: /\.vue$/,
+         use: [
+           {
+             loader: 'vue-loader',
+           }
+         ]
        }, {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: babelConfig,
       }, {
-        test: /\.tsx$/,
+        test: /\.(ts|tsx)$/,
         include: [
           pathResolve('./components'),
           pathResolve('./examples')
         ],
         use: [
+          {
+            loader: 'babel-loader'
+          },
           {
             loader: 'ts-loader',
             options: {
@@ -219,12 +229,14 @@ md.core.ruler.push('update_template', function replace ({ tokens }) {
       'node_modules', path.join(__dirname, '../node_modules'),
     ],
     extensions: [
-      '.js','.jsx', '.vue', '.md', 'ts', 'tsx'
+      '.js','.jsx', '.vue', '.md', '.ts', '.tsx'
     ],
     alias: {
       'antd': path.join(__dirname,'..' ,'components'),
       'ant-design-vue': path.join(__dirname,'..', 'components'),
-      '@': path.join(__dirname,'..', ''),
+      'chaos-ui-vue': path.join(__dirname, '..', 'examples/components'),
+      'chaos-ui-dev-vue': path.join(__dirname, '../', 'components'),
+      '@': path.join(__dirname, '..'),
     },
   },
  }
